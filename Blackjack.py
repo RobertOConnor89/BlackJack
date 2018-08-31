@@ -3,10 +3,9 @@ from Deck import Deck
 from Player import Player
 
 '''issues to fix:
-show dealers second card at the right time
-automatically declare players as winner if dealer loses
-write debugging script
-SET UP A GITHUB REPO!!!!!!!!!!!!!!!!!'''
+make aces high or low
+allow splits
+automatically declare players as winner if dealer busts'''
 
 
 class BlackJack:
@@ -39,21 +38,22 @@ class BlackJack:
         total = sum([self.scores[card.rank] for card in player.hand])
         while True:
             if input("{}: hit or stand?".format(player.name)) == "hit":
+                print("{} draws...".format(player.name))
                 player.draw(self.deck, 1)
                 player.hand[-1].faceup = True
                 total += self.scores[player.hand[-1].rank]
                 print(player)
                 print(total)
-                if total > 21: break
+                if total > 21:
+                    break
             else:
-                print(player)
-                print(total)
                 break
         if total > 21:
             print("{} has busted!".format(player.name))
             return 0
         else:
             print("{} stands at {}.".format(player.name, total))
+            print(player)
             return total
 
     def dealers_play(self):
@@ -61,6 +61,7 @@ class BlackJack:
         print(self.dealer)
         total = sum([self.scores[card.rank] for card in self.dealer.hand])
         while total < 17:
+            print("dealer draws...")
             self.dealer.draw(self.deck, 1)
             self.dealer.hand[-1].faceup = True
             total += self.scores[self.dealer.hand[-1].rank]
